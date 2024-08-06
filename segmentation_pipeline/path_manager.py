@@ -94,12 +94,12 @@ class PathManager:
 
         self.train_dataset_path_manager = {
             train_dataset.dn: TrainDatasetPathManager(
-                train_dataset,
-                self.train_tile_str,
-                self.train_data_dp,
-                self.train_images_dp,
-                self.train_labels_dp,
-                self.images_cover_csv_fn,
+                dataset=train_dataset,
+                tile_str=self.train_tile_str,
+                train_data_dp=self.train_data_dp,
+                train_images_dp=self.train_images_dp,
+                train_labels_dp=self.train_labels_dp,
+                images_cover_csv_fn=self.images_cover_csv_fn,
             )
             for train_dataset in self.train_datasets
         }
