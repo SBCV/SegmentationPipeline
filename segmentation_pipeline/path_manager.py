@@ -104,6 +104,32 @@ class PathManager:
             for train_dataset in self.train_datasets
         }
 
+        # ========================== Validation Data ==========================
+        self.validation_tile_str = self._get_tile_str(validation_tiling_scheme)
+        self.validation_name = "validation"
+        self.validation_dp = os.path.join(self.workspace_dp, self.validation_name)
+        self.validation_data_dp = os.path.join(self.validation_dp, "data")
+        self.validation_images_dp = os.path.join(self.validation_dp, "images")
+        self.validation_labels_dp = os.path.join(self.validation_dp, "labels")
+        # The validation data resides in the test directory to reduce the
+        # redundancy of datasets
+        self.validation_datasets = self._get_datasets(
+            self.validation_data_dp, requested_test_datasets
+        )
+        self.validation_dataset_path_manager = {
+            validation_dataset.dn: TestDatasetPathManager(
+                dataset=validation_dataset,
+                tile_str=self.validation_tile_str,
+                test_dp=self.validation_dp,
+                test_data_dp=self.validation_data_dp,
+                test_images_dp=self.validation_images_dp,
+                test_labels_dp=self.validation_labels_dp,
+                images_cover_csv_fn=self.images_cover_csv_fn,
+            )
+            for validation_dataset in self.validation_datasets
+        }
+
+
         # =========================== Test Data ===========================
         self.test_tile_str = self._get_tile_str(test_tiling_scheme)
 
@@ -154,26 +180,6 @@ class PathManager:
                 test_masks_fusion_comparison_aggregated_dp=self.test_masks_fusion_comparison_aggregated_dp,
             )
             for test_dataset in self.test_datasets
-        }
-
-        # ========================== Validation Data ==========================
-        self.validation_tile_str = self._get_tile_str(validation_tiling_scheme)
-        # The validation data resides in the test directory to reduce the
-        # redundancy of datasets
-        self.validation_datasets = self._get_datasets(
-            self.test_data_dp, requested_test_datasets
-        )
-        self.validation_dataset_path_manager = {
-            validation_dataset.dn: TestDatasetPathManager(
-                dataset=validation_dataset,
-                tile_str=self.validation_tile_str,
-                test_dp=self.test_dp,
-                test_data_dp=self.test_data_dp,
-                test_images_dp=self.test_images_dp,
-                test_labels_dp=self.test_labels_dp,
-                images_cover_csv_fn=self.images_cover_csv_fn,
-            )
-            for validation_dataset in self.validation_datasets
         }
 
     @classmethod
