@@ -11,7 +11,7 @@ class ValidationDatasetPathManager:
         validation_images_dp,
         validation_labels_dp,
         images_cover_csv_fn,
-        validation_instance_labels_dp=None,
+        validation_panoptic_labels_dp=None,
     ):
         self.dataset_name = dataset.dn
         self.dataset_type = dataset.dataset_type
@@ -28,9 +28,9 @@ class ValidationDatasetPathManager:
         self.validation_labels_dp = os.path.join(
             validation_labels_dp, self.dataset_name, tile_str
         )
-        if validation_instance_labels_dp is not None:
-            self.validation_instance_labels_dp = os.path.join(
-                validation_instance_labels_dp, self.dataset_name, tile_str
+        if validation_panoptic_labels_dp is not None:
+            self.validation_panoptic_labels_dp = os.path.join(
+                validation_panoptic_labels_dp, self.dataset_name, tile_str
             )
         else:
-            self.validation_instance_labels_dp = None
+            self.validation_panoptic_labels_dp = None
