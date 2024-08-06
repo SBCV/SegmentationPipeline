@@ -10,6 +10,7 @@ class TrainDatasetPathManager:
         train_images_dp,
         train_labels_dp,
         images_cover_csv_fn,
+        train_instance_labels_dp=None,
     ):
         self.dataset_name = dataset.dn
         self.dataset_type = dataset.dataset_type
@@ -23,3 +24,9 @@ class TrainDatasetPathManager:
         self.train_labels_dp = os.path.join(
             train_labels_dp, self.dataset_name, tile_str
         )
+        if train_instance_labels_dp is not None:
+            self.train_instance_labels_dp = os.path.join(
+                train_instance_labels_dp, self.dataset_name, tile_str
+            )
+        else:
+            self.train_instance_labels_dp = None

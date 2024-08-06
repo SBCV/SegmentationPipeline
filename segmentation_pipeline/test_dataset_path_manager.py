@@ -21,6 +21,7 @@ class TestDatasetPathManager:
         test_masks_labels_comparison_aggregated_dp=None,
         test_masks_fusion_comparison_dp=None,
         test_masks_fusion_comparison_aggregated_dp=None,
+        test_instance_labels_dp=None,
     ):
         if test_masks_dp is None:
             test_masks_dp = str(test_masks_dp)
@@ -59,6 +60,12 @@ class TestDatasetPathManager:
         self.test_labels_dp = os.path.join(
             test_labels_dp, self.dataset_name, tile_str
         )
+        if test_instance_labels_dp is not None:
+            self.test_instance_labels_dp = os.path.join(
+                test_instance_labels_dp, self.dataset_name, tile_str
+            )
+        else:
+            self.test_instance_labels_dp = None
 
         # The following paths refer to the results produced with a specific
         #  (trained) model.
