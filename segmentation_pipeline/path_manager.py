@@ -60,7 +60,7 @@ class PathManager:
         self.images_cover_csv_fn = "images_cover.csv"
         self.grid_json_fn = "grid.json"
 
-        # Training Data
+        # =========================== Training Data ===========================
         self.train_tile_str = self._get_tile_str(train_tiling_scheme)
 
         self.train_name = "train"
@@ -104,7 +104,7 @@ class PathManager:
             for train_dataset in self.train_datasets
         }
 
-        # Test Data
+        # =========================== Test Data ===========================
         self.test_tile_str = self._get_tile_str(test_tiling_scheme)
 
         self.test_name = "test"
@@ -156,7 +156,7 @@ class PathManager:
             for test_dataset in self.test_datasets
         }
 
-        # Validation Data
+        # ========================== Validation Data ==========================
         self.validation_tile_str = self._get_tile_str(validation_tiling_scheme)
         # The validation data resides in the test directory to reduce the
         # redundancy of datasets
