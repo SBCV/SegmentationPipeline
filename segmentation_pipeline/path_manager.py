@@ -2,6 +2,7 @@ import os
 
 from test_dataset_path_manager import TestDatasetPathManager
 from train_dataset_path_manager import TrainDatasetPathManager
+from validation_dataset_path_manager import ValidationDatasetPathManager
 from neat_eo.utility.os_extension import get_subdirs
 
 
@@ -68,6 +69,7 @@ class PathManager:
         self.train_data_dp = os.path.join(self.train_dp, "data")
         self.train_images_dp = os.path.join(self.train_dp, "images")
         self.train_labels_dp = os.path.join(self.train_dp, "labels")
+        self.train_panoptic_labels_dp = None
         self.train_datasets = self._get_datasets(
             self.train_data_dp, requested_train_datasets
         )
@@ -92,18 +94,6 @@ class PathManager:
             self.train_model_dp, self.prediction_model_checkpoint_fn
         )
 
-        self.train_dataset_path_manager = {
-            train_dataset.dn: TrainDatasetPathManager(
-                dataset=train_dataset,
-                tile_str=self.train_tile_str,
-                train_data_dp=self.train_data_dp,
-                train_images_dp=self.train_images_dp,
-                train_labels_dp=self.train_labels_dp,
-                images_cover_csv_fn=self.images_cover_csv_fn,
-            )
-            for train_dataset in self.train_datasets
-        }
-
         # ========================== Validation Data ==========================
         self.validation_tile_str = self._get_tile_str(validation_tiling_scheme)
         self.validation_name = "validation"
@@ -111,24 +101,12 @@ class PathManager:
         self.validation_data_dp = os.path.join(self.validation_dp, "data")
         self.validation_images_dp = os.path.join(self.validation_dp, "images")
         self.validation_labels_dp = os.path.join(self.validation_dp, "labels")
+        self.validation_panoptic_labels_dp = None
         # The validation data resides in the test directory to reduce the
         # redundancy of datasets
         self.validation_datasets = self._get_datasets(
             self.validation_data_dp, requested_test_datasets
         )
-        self.validation_dataset_path_manager = {
-            validation_dataset.dn: TestDatasetPathManager(
-                dataset=validation_dataset,
-                tile_str=self.validation_tile_str,
-                test_dp=self.validation_dp,
-                test_data_dp=self.validation_data_dp,
-                test_images_dp=self.validation_images_dp,
-                test_labels_dp=self.validation_labels_dp,
-                images_cover_csv_fn=self.images_cover_csv_fn,
-            )
-            for validation_dataset in self.validation_datasets
-        }
-
 
         # =========================== Test Data ===========================
         self.test_tile_str = self._get_tile_str(test_tiling_scheme)
@@ -139,6 +117,7 @@ class PathManager:
         self.test_images_dp = os.path.join(self.test_dp, "images")
         self.test_masks_dp = os.path.join(self.test_dp, "masks")
         self.test_labels_dp = os.path.join(self.test_dp, "labels")
+        self.test_panoptic_labels_dp = None
         self.test_masks_aggregated_dp = os.path.join(
             self.test_dp, "masks_aggregated"
         )
@@ -159,7 +138,44 @@ class PathManager:
         self.test_datasets = self._get_datasets(
             self.test_data_dp, requested_test_datasets
         )
-        self.test_dataset_path_manager = {
+        self.prediction_base_tile_prediction = prediction_base_tile_prediction
+        self.prediction_base_tile_merging = prediction_base_tile_merging
+        self.prediction_model_checkpoint_fn = prediction_model_checkpoint_fn
+
+    @property
+    def train_dataset_path_manager(self):
+        return {
+            train_dataset.dn: TrainDatasetPathManager(
+                dataset=train_dataset,
+                tile_str=self.train_tile_str,
+                train_data_dp=self.train_data_dp,
+                train_images_dp=self.train_images_dp,
+                train_labels_dp=self.train_labels_dp,
+                images_cover_csv_fn=self.images_cover_csv_fn,
+                train_panoptic_labels_dp=self.train_panoptic_labels_dp,
+            )
+            for train_dataset in self.train_datasets
+        }
+
+    @property
+    def validation_dataset_path_manager(self):
+        return {
+            validation_dataset.dn: ValidationDatasetPathManager(
+                dataset=validation_dataset,
+                tile_str=self.validation_tile_str,
+                validation_dp=self.validation_dp,
+                validation_data_dp=self.validation_data_dp,
+                validation_images_dp=self.validation_images_dp,
+                validation_labels_dp=self.validation_labels_dp,
+                images_cover_csv_fn=self.images_cover_csv_fn,
+                validation_panoptic_labels_dp=self.validation_panoptic_labels_dp,
+            )
+            for validation_dataset in self.validation_datasets
+        }
+
+    @property
+    def test_dataset_path_manager(self):
+        return {
             test_dataset.dn: TestDatasetPathManager(
                 dataset=test_dataset,
                 tile_str=self.test_tile_str,
@@ -169,15 +185,16 @@ class PathManager:
                 test_labels_dp=self.test_labels_dp,
                 images_cover_csv_fn=self.images_cover_csv_fn,
                 model_specific_dp=self.model_specific_dp,
-                base_tile_prediction=prediction_base_tile_prediction,
-                base_tile_merging=prediction_base_tile_merging,
-                model_checkpoint_fn=prediction_model_checkpoint_fn,
+                base_tile_prediction=self.prediction_base_tile_prediction,
+                base_tile_merging=self.prediction_base_tile_merging,
+                model_checkpoint_fn=self.prediction_model_checkpoint_fn,
                 test_masks_dp=self.test_masks_dp,
                 test_masks_aggregated_dp=self.test_masks_aggregated_dp,
                 test_masks_labels_comparison_dp=self.test_masks_labels_comparison_dp,
                 test_masks_labels_comparison_aggregated_dp=self.test_masks_labels_comparison_aggregated_dp,
                 test_masks_fusion_comparison_dp=self.test_masks_fusion_comparison_dp,
                 test_masks_fusion_comparison_aggregated_dp=self.test_masks_fusion_comparison_aggregated_dp,
+                test_panoptic_labels_dp=self.test_panoptic_labels_dp,
             )
             for test_dataset in self.test_datasets
         }
