@@ -1,7 +1,7 @@
 import os
 
-from neat_eo.pipeline.test_dataset_path_manager import TestDatasetPathManager
-from neat_eo.pipeline.train_dataset_path_manager import TrainDatasetPathManager
+from test_dataset_path_manager import TestDatasetPathManager
+from train_dataset_path_manager import TrainDatasetPathManager
 from neat_eo.utility.os_extension import get_subdirs
 
 
