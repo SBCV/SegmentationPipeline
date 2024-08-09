@@ -6,7 +6,6 @@ class PipelineStepConfig(BaseModel):
     prepare_training_data: Union[bool, int]
     prepare_test_data: Union[bool, int]
 
-    derive_panoptic_training_labels_from_tiles: Union[bool, int] = None
     derive_panoptic_train_labels_from_tiles: Union[bool, int] = None
     derive_panoptic_test_labels_from_tiles: Union[bool, int] = None
 
