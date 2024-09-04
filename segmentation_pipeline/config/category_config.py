@@ -11,6 +11,7 @@ class CategoryConfig(BaseModel):
     is_ignore_category: bool = False
     palette_index: int
     palette_color: Union[str, List]
+    is_thing: bool = False
     dataset_type_to_label_values: DatasetTypeToLabelValues
     weight: float = 1.0
 
