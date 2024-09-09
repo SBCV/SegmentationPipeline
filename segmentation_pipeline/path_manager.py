@@ -35,6 +35,7 @@ class PathManager:
         if not os.path.isdir(self.workspace_dp):
             os.mkdir(self.workspace_dp)
 
+        assert os.path.isfile(segmentation_model_cfg_fp), segmentation_model_cfg_fp
         self.segmentation_model_cfg_fp = segmentation_model_cfg_fp
         self.toml_config_fp = toml_config_fp
 
