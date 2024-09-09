@@ -9,13 +9,13 @@ from mmseg_ext.categories.multi_dataset_categories import (
 )
 
 
-def create_config_from_template(config_template_ifp, config_fp, pipeline_config_cls):
+def create_config_from_template(config_template_ifp, config_fp):
     config_template_ifp = os.path.abspath(config_template_ifp)
     config_fp = os.path.abspath(config_fp)
 
     if not os.path.isfile(config_fp):
         copyfile(config_template_ifp, config_fp)
-    return pipeline_config_cls.get_from_file(config_fp)
+    return config_fp
 
 
 def configure_proxy_settings(proxy_config):
