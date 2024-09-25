@@ -28,8 +28,6 @@ class PipelineStepConfig(BaseModel):
     disable_train_pipeline_resizing: Union[bool, int] = False
     disable_test_pipeline_resizing: Union[bool, int] = False
 
-    prediction_train_model_checkpoint_fn: str = "latest.pth"
-
     perform_prediction_base_tile_prediction: Union[bool, int] = False
     perform_prediction_base_tile_merging: Union[bool, int] = False
     ignore_background_category_in_evaluation: Union[bool, int] = False

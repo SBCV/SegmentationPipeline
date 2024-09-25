@@ -12,6 +12,8 @@ class ModelConfig(BaseModel):
     # NB: tile_size = (tile_width, tile_height)
     tile_size: Tuple[int, int]
 
+    prediction_train_model_checkpoint_fn: str = "latest.pth"
+
     # For some panoptic segmentation models
     set_test_evaluator_outfile_prefix: Union[bool, int] = False
 
