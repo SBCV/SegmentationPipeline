@@ -3,9 +3,18 @@ from pydantic import BaseModel
 
 
 class PipelineStepConfig(BaseModel):
-    prepare_training_data: Union[bool, int]
-    prepare_test_data: Union[bool, int]
+    process_semantic_dataset: Union[bool, int] = None
 
+    prepare_semantic_training_data: Union[bool, int]
+    prepare_semantic_test_data: Union[bool, int]
+
+    # Panoptic Processing Option 1
+    derive_panoptic_train_labels_from_raster: Union[bool, int] = None
+    derive_panoptic_test_labels_from_raster: Union[bool, int] = None
+
+    # Panoptic Processing Option 2
+    prepare_panoptic_training_data: Union[bool, int]
+    prepare_panoptic_test_data: Union[bool, int]
     derive_panoptic_train_labels_from_tiles: Union[bool, int] = None
     derive_panoptic_test_labels_from_tiles: Union[bool, int] = None
 
