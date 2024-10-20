@@ -22,6 +22,7 @@ class PipelineStepConfig(BaseModel):
     export_model_complexity: Union[bool, int] = None
 
     compute_predictions: Union[bool, int]
+    show_results_interactive: Union[bool, int] = None
     evaluate_predictions: Union[bool, int]
     aggregate_predictions: Union[bool, int]
     compare_predictions_with_labels: Union[bool, int] = None
